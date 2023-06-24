@@ -29,8 +29,8 @@ public class HostFixture : IDisposable
                         configuration => configuration.RegisterServicesFromAssembly(typeof(HostFixture).Assembly));
 
                     // Override service lifetime to singleton for testing purposes.
-                    services.AddSingleton<INotificationHandler<DummyNotification>, SpyNotificationHandler>();
-                    services.AddSingleton<IRequestHandler<DummyRequest>, SpyRequestHandler>();
+                    services.AddSingleton<INotificationHandler<SpyNotification>, SpyNotificationHandler>();
+                    services.AddSingleton<IRequestHandler<SpyRequest>, SpyRequestHandler>();
                 })
             .Build();
     }

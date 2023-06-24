@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Hangfire.MediatR;
 
-public class MediatorHangfireBridge
+internal class MediatorHangfireBridge
 {
     private readonly IMediator _mediator;
 
@@ -12,35 +12,24 @@ public class MediatorHangfireBridge
         => _mediator = mediator;
 
     public async Task Send(IRequest command)
-        => await _mediator.Send(command);
+    {
+        await _mediator.Send(command);
+    }
 
     public async Task Publish(INotification notification)
-        => await _mediator.Publish(notification);
+    {
+        await _mediator.Publish(notification);
+    }
 
     [DisplayName("{0}")]
     public async Task Send(string jobName, IRequest command)
-        => await _mediator.Send(command);
+    {
+        await _mediator.Send(command);
+    }
 
     [DisplayName("{0}")]
-    public async Task Publish(string jobName, INotification notification, string? operationId = null)
+    public async Task Publish(string jobName, INotification notification)
     {
-        Activity? activity = null;
-        if (operationId is not null)
-        {
-            // Create and start a new Activity with the operation ID
-            activity = new Activity(jobName)
-                .SetParentId(operationId)
-                .Start();
-        }
-       
-        try
-        {
-            await _mediator.Publish(notification);
-        }
-        finally
-        {
-            // Stop the Activity
-            activity?.Stop();
-        }
+        await _mediator.Publish(notification);
     }
 }

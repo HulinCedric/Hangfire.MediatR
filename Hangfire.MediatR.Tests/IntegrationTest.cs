@@ -4,6 +4,7 @@ using FluentAssertions;
 using Hangfire.MediatR.Tests.Common;
 using MediatR;
 using Microsoft.Extensions.Hosting;
+using Xunit;
 
 namespace Hangfire.MediatR.Tests;
 
@@ -18,76 +19,105 @@ public class IntegrationTest : BaseTest
         fixture.HostInstance.Start();
 
         mediatr = GetService<IMediator>();
-        spyNotificationHandler = (GetService<INotificationHandler<DummyNotification>>() as SpyNotificationHandler)!;
-        spyRequestHandler = (GetService<IRequestHandler<DummyRequest>>() as SpyRequestHandler)!;
+        spyNotificationHandler = (GetService<INotificationHandler<SpyNotification>>() as SpyNotificationHandler)!;
+        spyRequestHandler = (GetService<IRequestHandler<SpyRequest>>() as SpyRequestHandler)!;
     }
 
     [Fact]
     public async Task TestNotification()
     {
-        mediatr.Enqueue(DummyNotification.CreateInstance());
+        mediatr.Enqueue(new SpyNotification());
 
         await WaitWhileHandlerProcessing();
 
-        spyNotificationHandler.HaveHandledNotification.Should().BeTrue();
+        spyNotificationHandler.HaveHandled.Should().BeTrue();
     }
 
     [Fact]
     public async Task TestNotification2()
     {
-        var jobId = mediatr.Enqueue(DummyNotification.CreateInstance());
+        var jobId = mediatr.Enqueue(new DummyNotification());
 
         await WaitWhileHandlerProcessing();
 
         JobShouldBeSucceed(jobId);
     }
 
-
     [Fact]
-    public async Task TestNotification3()
+    public void TestNamedNotification2()
     {
-        mediatr.Enqueue("CouCou", DummyNotification.CreateInstance());
+        const string jobName = nameof(TestNamedNotification2);
 
-        await WaitWhileHandlerProcessing();
+        var jobId = mediatr.Enqueue(jobName, new DummyNotification());
 
-        spyNotificationHandler.HaveHandledNotification.Should().BeTrue();
+        JobShouldHaveDisplayName(jobId, jobName);
     }
 
     [Fact]
-    public void TestNotification4()
+    public async Task TestNamedNotification3()
     {
-        var jobName = "CouCou";
-        var argumentPosition = 0;
+        const string jobName = nameof(TestNamedNotification3);
 
-        var jobId = mediatr.Enqueue(jobName, DummyNotification.CreateInstance());
+        var jobId = mediatr.Enqueue(jobName, new DummyNotification());
 
-        var jobData = JobStorage.Current.GetMonitoringApi().JobDetails(jobId);
+        await WaitWhileHandlerProcessing();
 
-        var attribute = jobData.Job.Method?.GetCustomAttribute<DisplayNameAttribute>();
-        var firstArgument = jobData.Job.Args[argumentPosition];
-
-        Assert.Equal($"{{{argumentPosition}}}", attribute?.DisplayName);
-        Assert.Equal(jobName, firstArgument);
+        JobShouldBeSucceed(jobId);
     }
 
     [Fact]
     public async Task TestRequest()
     {
-        mediatr.Enqueue(DummyRequest.CreateInstance());
+        mediatr.Enqueue(new SpyRequest());
 
         await WaitWhileHandlerProcessing();
 
-        spyRequestHandler.HaveHandledNotification.Should().BeTrue();
+        spyRequestHandler.HaveHandled.Should().BeTrue();
     }
 
     [Fact]
     public async Task TestRequest2()
     {
-        var jobId = mediatr.Enqueue(DummyNotification.CreateInstance());
+        var jobId = mediatr.Enqueue(new DummyRequest());
 
         await WaitWhileHandlerProcessing();
 
         JobShouldBeSucceed(jobId);
+    }
+
+    [Fact]
+    public async Task TestNamedRequest2()
+    {
+        const string jobName = nameof(TestNamedRequest2);
+
+        var jobId = mediatr.Enqueue(jobName, new DummyRequest());
+
+        await WaitWhileHandlerProcessing();
+
+        JobShouldBeSucceed(jobId);
+    }
+
+    [Fact]
+    public void TestNamedRequest3()
+    {
+        const string jobName = nameof(TestNamedRequest3);
+
+        var jobId = mediatr.Enqueue(jobName, new DummyRequest());
+
+        JobShouldHaveDisplayName(jobId, jobName);
+    }
+
+    private static void JobShouldHaveDisplayName(string jobId, string jobName)
+    {
+        const int argumentPosition = 0;
+
+        var jobData = JobStorage.Current.GetMonitoringApi().JobDetails(jobId);
+
+        var attribute = jobData.Job.Method?.GetCustomAttribute<DisplayNameAttribute>();
+        attribute!.DisplayName.Should().Be($"{{{argumentPosition}}}");
+
+        var firstArgument = jobData.Job.Args[argumentPosition];
+        firstArgument.Should().Be(jobName);
     }
 
     private static void JobShouldBeSucceed(string jobId)
@@ -97,56 +127,5 @@ public class IntegrationTest : BaseTest
     }
 
     private static async Task WaitWhileHandlerProcessing()
-        => await Task.Delay(TimeSpan.FromSeconds(1));
-}
-
-public class DummyNotification : INotification
-{
-    private DummyNotification()
-    {
-    }
-
-    public static DummyNotification CreateInstance()
-        => new();
-}
-
-public class SpyNotificationHandler : INotificationHandler<DummyNotification>
-{
-    public SpyNotificationHandler()
-        => HaveHandledNotification = false;
-
-    public bool HaveHandledNotification { get; private set; }
-
-    public Task Handle(DummyNotification notification, CancellationToken cancellationToken)
-    {
-        HaveHandledNotification = true;
-
-        return Task.CompletedTask;
-    }
-}
-
-public class DummyRequest : IRequest
-{
-    private DummyRequest()
-    {
-    }
-
-    public static DummyRequest CreateInstance()
-        => new();
-}
-
-public class SpyRequestHandler : IRequestHandler<DummyRequest>
-{
-    public SpyRequestHandler()
-        => HaveHandledNotification = false;
-
-    public bool HaveHandledNotification { get; private set; }
-
-
-    public Task Handle(DummyRequest request, CancellationToken cancellationToken)
-    {
-        HaveHandledNotification = true;
-
-        return Task.CompletedTask;
-    }
+        => await Task.Delay(TimeSpan.FromMilliseconds(100));
 }
