@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Hangfire.MediatR.Tests;
+namespace Hangfire.MediatR.Tests.Fakes;
 
 public record DummyNotification : INotification;
 

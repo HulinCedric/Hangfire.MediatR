@@ -1,7 +1,7 @@
-using System.ComponentModel;
-using System.Reflection;
 using FluentAssertions;
 using Hangfire.MediatR.Tests.Common;
+using Hangfire.MediatR.Tests.Fakes;
+using Hangfire.MediatR.Tests.Verifications;
 using MediatR;
 using Microsoft.Extensions.Hosting;
 using Xunit;
@@ -36,11 +36,11 @@ public class IntegrationTest : BaseTest
     [Fact]
     public async Task TestNotification2()
     {
-        var jobId = mediatr.Enqueue(new DummyNotification());
+        var job = mediatr.Enqueue(new DummyNotification());
 
         await WaitWhileHandlerProcessing();
 
-        JobShouldBeSucceed(jobId);
+        job.ShouldBeSucceed();
     }
 
     [Fact]
@@ -48,9 +48,9 @@ public class IntegrationTest : BaseTest
     {
         const string jobName = nameof(TestNamedNotification2);
 
-        var jobId = mediatr.Enqueue(jobName, new DummyNotification());
+        var job = mediatr.Enqueue(jobName, new DummyNotification());
 
-        JobShouldHaveDisplayName(jobId, jobName);
+        job.ShouldHaveDisplayName(jobName);
     }
 
     [Fact]
@@ -58,11 +58,11 @@ public class IntegrationTest : BaseTest
     {
         const string jobName = nameof(TestNamedNotification3);
 
-        var jobId = mediatr.Enqueue(jobName, new DummyNotification());
+        var job = mediatr.Enqueue(jobName, new DummyNotification());
 
         await WaitWhileHandlerProcessing();
 
-        JobShouldBeSucceed(jobId);
+        job.ShouldBeSucceed();
     }
 
     [Fact]
@@ -78,11 +78,11 @@ public class IntegrationTest : BaseTest
     [Fact]
     public async Task TestRequest2()
     {
-        var jobId = mediatr.Enqueue(new DummyRequest());
+        var job = mediatr.Enqueue(new DummyRequest());
 
         await WaitWhileHandlerProcessing();
 
-        JobShouldBeSucceed(jobId);
+        job.ShouldBeSucceed();
     }
 
     [Fact]
@@ -90,11 +90,11 @@ public class IntegrationTest : BaseTest
     {
         const string jobName = nameof(TestNamedRequest2);
 
-        var jobId = mediatr.Enqueue(jobName, new DummyRequest());
+        var job = mediatr.Enqueue(jobName, new DummyRequest());
 
         await WaitWhileHandlerProcessing();
 
-        JobShouldBeSucceed(jobId);
+        job.ShouldBeSucceed();
     }
 
     [Fact]
@@ -102,28 +102,9 @@ public class IntegrationTest : BaseTest
     {
         const string jobName = nameof(TestNamedRequest3);
 
-        var jobId = mediatr.Enqueue(jobName, new DummyRequest());
+        var job = mediatr.Enqueue(jobName, new DummyRequest());
 
-        JobShouldHaveDisplayName(jobId, jobName);
-    }
-
-    private static void JobShouldHaveDisplayName(string jobId, string jobName)
-    {
-        const int argumentPosition = 0;
-
-        var jobData = JobStorage.Current.GetMonitoringApi().JobDetails(jobId);
-
-        var attribute = jobData.Job.Method?.GetCustomAttribute<DisplayNameAttribute>();
-        attribute!.DisplayName.Should().Be($"{{{argumentPosition}}}");
-
-        var firstArgument = jobData.Job.Args[argumentPosition];
-        firstArgument.Should().Be(jobName);
-    }
-
-    private static void JobShouldBeSucceed(string jobId)
-    {
-        var jobData = JobStorage.Current.GetMonitoringApi().JobDetails(jobId);
-        jobData.History.Should().ContainSingle(h => h.StateName == "Succeeded");
+        job.ShouldHaveDisplayName(jobName);
     }
 
     private static async Task WaitWhileHandlerProcessing()

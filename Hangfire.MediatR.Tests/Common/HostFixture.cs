@@ -1,4 +1,5 @@
-﻿using Hangfire.MemoryStorage;
+﻿using Hangfire.MediatR.Tests.Fakes;
+using Hangfire.MemoryStorage;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
