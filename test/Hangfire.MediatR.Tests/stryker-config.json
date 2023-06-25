@@ -1,0 +1,6 @@
+{
+  "stryker-config": {
+    "solution": "../../Hangfire.MediatR.sln",
+    "project": "Hangfire.MediatR"
+  }
+}
