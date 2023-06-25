@@ -1,22 +1,30 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hangfire.MediatR.Tests", "Hangfire.MediatR.Tests\Hangfire.MediatR.Tests.csproj", "{C5C7DEE8-B8E4-49FE-A31E-3F7ACFAD997C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{CB5E6EFF-1685-4692-86F1-195DAF340C7F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hangfire.MediatR", "Hangfire.MediatR\Hangfire.MediatR.csproj", "{70720B4C-1B8B-472E-A0BE-95BA4D0ACC79}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{3065ED10-6EF9-4B98-8537-806E0C1063C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hangfire.MediatR", "src\Hangfire.MediatR\Hangfire.MediatR.csproj", "{ED941E1A-4E7F-4AE7-A0FC-4A5027BBAE84}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hangfire.MediatR.Tests", "test\Hangfire.MediatR.Tests\Hangfire.MediatR.Tests.csproj", "{7DCBDB42-3F69-496B-B943-EE08AD233A3E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{ED941E1A-4E7F-4AE7-A0FC-4A5027BBAE84} = {CB5E6EFF-1685-4692-86F1-195DAF340C7F}
+		{7DCBDB42-3F69-496B-B943-EE08AD233A3E} = {3065ED10-6EF9-4B98-8537-806E0C1063C0}
+	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C5C7DEE8-B8E4-49FE-A31E-3F7ACFAD997C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C5C7DEE8-B8E4-49FE-A31E-3F7ACFAD997C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C5C7DEE8-B8E4-49FE-A31E-3F7ACFAD997C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C5C7DEE8-B8E4-49FE-A31E-3F7ACFAD997C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{70720B4C-1B8B-472E-A0BE-95BA4D0ACC79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{70720B4C-1B8B-472E-A0BE-95BA4D0ACC79}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{70720B4C-1B8B-472E-A0BE-95BA4D0ACC79}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{70720B4C-1B8B-472E-A0BE-95BA4D0ACC79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED941E1A-4E7F-4AE7-A0FC-4A5027BBAE84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED941E1A-4E7F-4AE7-A0FC-4A5027BBAE84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED941E1A-4E7F-4AE7-A0FC-4A5027BBAE84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED941E1A-4E7F-4AE7-A0FC-4A5027BBAE84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DCBDB42-3F69-496B-B943-EE08AD233A3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DCBDB42-3F69-496B-B943-EE08AD233A3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DCBDB42-3F69-496B-B943-EE08AD233A3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DCBDB42-3F69-496B-B943-EE08AD233A3E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

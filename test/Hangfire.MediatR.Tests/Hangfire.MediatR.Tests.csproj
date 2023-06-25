@@ -21,7 +21,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Hangfire.MediatR\Hangfire.MediatR.csproj" />
+      <ProjectReference Include="..\..\src\Hangfire.MediatR\Hangfire.MediatR.csproj" />
     </ItemGroup>
 
 </Project>
