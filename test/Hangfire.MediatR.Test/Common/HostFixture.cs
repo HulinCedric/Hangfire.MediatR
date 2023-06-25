@@ -1,10 +1,10 @@
-﻿using Hangfire.MediatR.Tests.Fakes;
+﻿using Hangfire.MediatR.Test.Fakes;
 using Hangfire.MemoryStorage;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Hangfire.MediatR.Tests.Common;
+namespace Hangfire.MediatR.Test.Common;
 
 public class HostFixture : IDisposable
 {

@@ -2,9 +2,9 @@ using System.ComponentModel;
 using System.Reflection;
 using FluentAssertions;
 
-namespace Hangfire.MediatR.Tests.Verifications;
+namespace Hangfire.MediatR.Test.Verification;
 
-public static class JobVerificationExtensions
+public static class JobVerification
 {
     public static void ShouldHaveDisplayName(this string jobId, string jobName)
     {

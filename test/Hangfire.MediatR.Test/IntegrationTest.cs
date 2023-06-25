@@ -1,12 +1,12 @@
 using FluentAssertions;
-using Hangfire.MediatR.Tests.Common;
-using Hangfire.MediatR.Tests.Fakes;
-using Hangfire.MediatR.Tests.Verifications;
+using Hangfire.MediatR.Test.Common;
+using Hangfire.MediatR.Test.Fakes;
+using Hangfire.MediatR.Test.Verification;
 using MediatR;
 using Microsoft.Extensions.Hosting;
 using Xunit;
 
-namespace Hangfire.MediatR.Tests;
+namespace Hangfire.MediatR.Test;
 
 public class IntegrationTest : BaseTest
 {

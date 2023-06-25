@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace Hangfire.MediatR.Tests.Common;
+namespace Hangfire.MediatR.Test.Common;
 
 public class BaseTest : IClassFixture<HostFixture>
 {

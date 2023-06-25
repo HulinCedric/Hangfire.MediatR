@@ -6,7 +6,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{3065ED10-6
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hangfire.MediatR", "src\Hangfire.MediatR\Hangfire.MediatR.csproj", "{ED941E1A-4E7F-4AE7-A0FC-4A5027BBAE84}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hangfire.MediatR.Tests", "test\Hangfire.MediatR.Tests\Hangfire.MediatR.Tests.csproj", "{7DCBDB42-3F69-496B-B943-EE08AD233A3E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hangfire.MediatR.Test", "test\Hangfire.MediatR.Test\Hangfire.MediatR.Test.csproj", "{7DCBDB42-3F69-496B-B943-EE08AD233A3E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

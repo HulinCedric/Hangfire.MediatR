@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Hangfire.MediatR.Tests.Fakes;
+namespace Hangfire.MediatR.Test.Fakes;
 
 public record DummyRequest : IRequest;
 
